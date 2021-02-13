@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<link type="text/css"rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" /> 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 <title>Insert title here</title>
 </head>
 <body>
@@ -32,6 +32,13 @@
 		<div class="form-group">
 			<label for="price">Price</label> <input type="text"
 				th:field="*{price}" />
+		</div>
+		<div class="form-group">								
+		  	<label for="category-list">Category</label>
+			 <select id="category-list" th:field="*{category}">
+       			<option th:each="category: ${categories}" 
+       			th:value="${category.categoryid}" th:text="${category.name}"></option>
+    		</select>
 		</div>
 
 		<input class="bg-primary text-white" type="submit" value="Save"></input>
