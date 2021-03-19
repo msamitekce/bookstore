@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name= "usertable")
+@Table(name = "usertable")
 public class User {
 
     @Id
@@ -16,23 +16,25 @@ public class User {
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
-    // Username with unique constraint
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
     @Column(name = "password", nullable = false)
     private String passwordHash;
 
+    @Column(name = "email", nullable = false)
+    private String email;
+
     @Column(name = "role", nullable = false)
     private String role;
 
-    public User() {
-    }
+    public User() {}
 
-    public User(String username, String passwordHash, String role) {
+    public User(String username, String passwordHash, String email, String role) {
 	super();
 	this.username = username;
 	this.passwordHash = passwordHash;
+	this.email = email;
 	this.role = role;
     }
 
@@ -60,11 +62,25 @@ public class User {
 	this.passwordHash = passwordHash;
     }
 
+    public String getEmail() {
+	return email;
+    }
+
+    public void setEmail(String email) {
+	this.email = email;
+    }
+
     public String getRole() {
 	return role;
     }
 
     public void setRole(String role) {
 	this.role = role;
+    }
+
+    @Override
+    public String toString() {
+	return "User [id=" + id + ", username=" + username + ", password=" + passwordHash + ", email=" + email
+		+ ", role=" + role + "]";
     }
 }
