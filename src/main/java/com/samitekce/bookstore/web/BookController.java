@@ -20,70 +20,67 @@ import com.samitekce.bookstore.domain.CategoryRepository;
 
 @Controller
 public class BookController {
-	@Autowired
-	private BookRepository repository;
-	
-	@Autowired
-	private CategoryRepository crepository;
-	
-	  @RequestMapping(value="/login")
-	    public String login() {	
-	        return "login";
-	    }	
-	// REST Controllers
-	
-	@RequestMapping(value="/books", method = RequestMethod.GET)
-    public @ResponseBody List<Book> bookListRest() {	
-        return (List<Book>) repository.findAll();
-    }  
-	
-	@RequestMapping(value= "/restfind/{id}", method = RequestMethod.GET)
-	public @ResponseBody Optional<Book> bookFindRest(@PathVariable("id") Long bookId) {
-		return repository.findById(bookId);
-	}
-	
-	@RequestMapping(value ="restdelete/{id}", method = RequestMethod.POST)
-	public @ResponseBody String bookDeleteRest(@PathVariable("id") Long bookId){
-		repository.deleteById(bookId);
-		return "Success";
-	}
-	
-	
-	// View controllers
-	
-	@GetMapping(value = {"/index", "/"})
-	public String index(Model model) {
-		model.addAttribute("books", repository.findAll());
-		return "index";
-	}
-	
-	
-	@RequestMapping(value = "/add")
-	public String addBook(Model model) {
-		model.addAttribute("book", new Book());
-		model.addAttribute("categories", crepository.findAll());
-		return "addbook";
-	}
-	
-	@PostMapping("/save")
-	public String saveBook(Book book) {
-		repository.save(book);
-		return "redirect:index";
-	}
-	
-	@PreAuthorize("hasAuthority('ADMIN')")
-	@RequestMapping("/delete/{id}")
-	public String deleteBook(@PathVariable("id") Long bookId, Model model) {
-		repository.deleteById(bookId);
-		return "redirect:../index";
-	}
-	
-	@RequestMapping("/edit/{id}")
-	public String editBook(@PathVariable("id") Long bookId, Model model) {
-		model.addAttribute("book", repository.findById(bookId));
-		model.addAttribute("categories", crepository.findAll());
-		return "edit";
-	}
-	
-	
+    @Autowired
+    private BookRepository repository;
+
+    @Autowired
+    private CategoryRepository crepository;
+
+    @RequestMapping(value = "/login")
+    public String login() {
+	return "login";
+    }
+    // REST Controllers
+
+    @RequestMapping(value = "/books", method = RequestMethod.GET)
+    public @ResponseBody List<Book> bookListRest() {
+	return (List<Book>) repository.findAll();
+    }
+
+    @RequestMapping(value = "/restfind/{id}", method = RequestMethod.GET)
+    public @ResponseBody Optional<Book> bookFindRest(@PathVariable("id") Long bookId) {
+	return repository.findById(bookId);
+    }
+
+    @RequestMapping(value = "restdelete/{id}", method = RequestMethod.POST)
+    public @ResponseBody String bookDeleteRest(@PathVariable("id") Long bookId) {
+	repository.deleteById(bookId);
+	return "Success";
+    }
+
+    // View controllers
+
+    @GetMapping(value = { "/index", "/" })
+    public String index(Model model) {
+	model.addAttribute("books", repository.findAll());
+	return "index";
+    }
+
+    @RequestMapping(value = "/add")
+    public String addBook(Model model) {
+	model.addAttribute("book", new Book());
+	model.addAttribute("categories", crepository.findAll());
+	return "addbook";
+    }
+
+    @PostMapping("/save")
+    public String saveBook(Book book) {
+	repository.save(book);
+	return "redirect:index";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping("/delete/{id}")
+    public String deleteBook(@PathVariable("id") Long bookId, Model model) {
+	repository.deleteById(bookId);
+	return "redirect:../index";
+    }
+
+    @RequestMapping("/edit/{id}")
+    public String editBook(@PathVariable("id") Long bookId, Model model) {
+	model.addAttribute("book", repository.findById(bookId));
+	model.addAttribute("categories", crepository.findAll());
+	return "edit";
+    }
+
 }
